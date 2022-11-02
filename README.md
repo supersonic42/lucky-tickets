@@ -16,4 +16,4 @@ For example:
 
 6 = 6
 
-Request example: /index.php?start=100000&end=199999
+Request example: /index.php?start=000001&end=999999
