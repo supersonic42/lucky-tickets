@@ -26,9 +26,7 @@ if ($start >= $end) {
 }
 
 if (!empty($errors)) {
-    echo '<pre>';
-    echo implode(PHP_EOL, $errors);
-    echo '</pre>';
+    dump(implode(PHP_EOL, $errors));
     exit;
 }
 
@@ -49,6 +47,7 @@ function dump($var)
  *
  * @param string|int $n
  * @param bool $nonZero
+ *
  * @return int
  */
 function simplifyNumber($n, bool $nonZero = false):int
@@ -68,9 +67,9 @@ function simplifyNumber($n, bool $nonZero = false):int
 }
 
 /**
- * Determines how many times every digit from range 1-9 could fit into the passed digit range.
+ * Determines how many times every digit from range 1-9 could fit into the passed number range.
  *
- * Imagine the passed range 100-120. How many times sums from 1 to 9 will occur in that range?
+ * Imagine the passed range 100-120. How many times digits from 1 to 9 will occur in that range?
  * 1 - 3 times (100, 109, 118)
  * 2 - 3 times (101, 110, 119)
  * 3 - 3 times (102, 111, 120)
@@ -118,7 +117,7 @@ $leftPartsGap = $endLeftPart - $startLeftPart;
  * 2. Right edge, left part compared to the right "partial thousand" (558 vs 111 numbers)
  * 3. Middle bunch, left parts compared to the "full thousand" (556-557 vs 999 numbers)
  *
- * And the final merge of this counts would be the total lucky tickets count
+ * And the final merge of these counts would be the total lucky tickets count
  */
 $luckyTicketsCount = [
     'leftEdge' => 0,
@@ -177,7 +176,7 @@ if ($rightEdgeNumber !== null) {
  * 3. Middle edge lucky tickets count calc
  */
 if (!empty($middleEdgeNumbersRange)) {
-    $thousandSumFrequency = calcSumFrequency(1, 999); // base frequency in a digit range 1-999
+    $thousandSumFrequency = calcSumFrequency(1, 999); // base frequency in a number range 1-999
     $middleEdgeLeftSumFrequency = calcSumFrequency($middleEdgeNumbersRange[0], $middleEdgeNumbersRange[(count($middleEdgeNumbersRange) == 1 ? 0 : 1)]);
     $middleEdgeLeftSumFrequency = array_filter($middleEdgeLeftSumFrequency);
 
