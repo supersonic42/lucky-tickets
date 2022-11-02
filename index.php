@@ -132,7 +132,7 @@ $middleEdgeNumbersRange = [];
 
 switch ($leftPartsGap) {
     case 0;
-        $leftEdgeNumber = $startLeftPart;
+        $rightEdgeNumber = $endLeftPart;
         break;
     case 1;
         $leftEdgeNumber = $startLeftPart;
@@ -152,11 +152,13 @@ switch ($leftPartsGap) {
 /**
  * 1. Left edge lucky tickets count calc
  */
-$leftEdgeLeftSum = simplifyNumber($leftEdgeNumber);
-$leftEdgeRightSumFrequency = calcSumFrequency($startRightPart, 999);
+if ($leftEdgeNumber !== null) {
+    $leftEdgeLeftSum = simplifyNumber($leftEdgeNumber);
+    $leftEdgeRightSumFrequency = calcSumFrequency($startRightPart, 999);
 
-if (!empty($leftEdgeLuckyTicketsCount = $leftEdgeRightSumFrequency[$leftEdgeLeftSum])) {
-    $luckyTicketsCount['leftEdge'] = $leftEdgeLuckyTicketsCount;
+    if (!empty($leftEdgeRightSumFrequency[$leftEdgeLeftSum])) {
+        $luckyTicketsCount['leftEdge'] = $leftEdgeRightSumFrequency[$leftEdgeLeftSum];
+    }
 }
 
 /**
@@ -166,8 +168,8 @@ if ($rightEdgeNumber !== null) {
     $rightEdgeLeftSum = simplifyNumber($rightEdgeNumber);
     $rightEdgeRightSumFrequency = calcSumFrequency(1, $endRightPart);
 
-    if (!empty($rightEdgeLuckyTicketsCount = $rightEdgeRightSumFrequency[$rightEdgeLeftSum])) {
-        $luckyTicketsCount['rightEdge'] = $rightEdgeLuckyTicketsCount;
+    if (!empty($rightEdgeRightSumFrequency[$rightEdgeLeftSum])) {
+        $luckyTicketsCount['rightEdge'] = $rightEdgeRightSumFrequency[$rightEdgeLeftSum];
     }
 }
 
@@ -186,7 +188,29 @@ if (!empty($middleEdgeNumbersRange)) {
 
 /**
  * 4. Final calc of the lucky tickets count
+ * Range 000001-999999 takes nearly 0.000041 seconds
+ * Time complexity: O(1)
  */
 $luckyTicketCountFinal = array_sum($luckyTicketsCount);
 
 echo "Lucky tickets count: {$luckyTicketCountFinal}";
+
+/**
+ * 5. Not optimal solution
+ * Range 000001-999999 takes nearly 1.471314 seconds
+ * Time complexity: O(n)
+ */
+//$ltCount = 0;
+//
+//for ($i = $start; $i <= $end; $i++) {
+//    $i = str_pad($i, 6, '0', STR_PAD_LEFT);
+//
+//    $leftSum = simplifyNumber(substr($i, 0, 3));
+//    $rightSum = simplifyNumber(substr($i, 3, 6));
+//
+//    if ($leftSum == $rightSum) {
+//        $ltCount++;
+//    }
+//}
+//
+//dump("Lucky tickets count: {$ltCount}");
